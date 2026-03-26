@@ -1,0 +1,160 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("=== Student Enrollment ===");
+
+        int n = getValidPositiveInt(sc, "Enter how many students you need to enroll: ");
+
+        ArrayList<String> students = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            String name;
+            while (true) {
+                System.out.print("Enter the name of student " + (i + 1) + ": ");
+                name = sc.nextLine().trim();
+
+                if (isValidName(name)) {
+                    students.add(name);
+                    break;
+                } else {
+                    System.out.println("Invalid name! Use letters and spaces only.");
+                }
+            }
+        }
+
+        printList(students);
+
+        System.out.print("\nHow many students do you want to remove: ");
+        int removeCount = getValidNonNegativeInt(sc);
+
+        for (int i = 0; i < removeCount; i++) {
+            int index = getValidIndex(sc, students.size(),
+                "Enter the index of the student you want to remove: ");
+
+            String removed = students.remove(index);
+            System.out.println("Removed: " + removed);
+            printList(students);
+        }
+
+        System.out.println("\nTotal students enrolled: " + students.size());
+        printList(students);
+
+        System.out.println("\n=== Student LRN Registry ===");
+
+        HashMap<String, Integer> studentLRN = new HashMap<>();
+        HashSet<Integer> uniqueLRNs = new HashSet<>();
+
+        for (String student : students) {
+            int lrn = getValidUniqueLRN(sc, uniqueLRNs, "Enter LRN for " + student + ": ");
+            uniqueLRNs.add(lrn);
+            studentLRN.put(student, lrn);
+            System.out.println("LRN " + lrn + " successfully assigned to " + student);
+        }
+
+        System.out.println("\n=== Final Student LRN Registry ===");
+        System.out.println("Student Name                LRN");
+        System.out.println("--------------------------------");
+
+        for (Map.Entry<String, Integer> entry : studentLRN.entrySet()) {
+            System.out.printf("%-25s %d%n", entry.getKey(), entry.getValue());
+        }
+
+        System.out.println("\nProgram ended. Thank you!");
+        sc.close();
+    }
+
+    public static int getValidPositiveInt(Scanner sc, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = sc.nextLine().trim();
+            try {
+                int num = Integer.parseInt(input);
+                if (num > 0) return num;
+                System.out.println("Please enter a number greater than 0.");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter numbers only.");
+            }
+        }
+    }
+
+    public static int getValidNonNegativeInt(Scanner sc) {
+        while (true) {
+            String input = sc.nextLine().trim();
+            try {
+                int num = Integer.parseInt(input);
+                if (num >= 0) return num;
+                System.out.println("Please enter 0 or a positive number.");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter numbers only.");
+            }
+        }
+    }
+
+    public static int getValidIndex(Scanner sc, int maxSize, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = sc.nextLine().trim();
+            try {
+                int index = Integer.parseInt(input);
+                if (index >= 0 && index < maxSize) {
+                    return index;
+                } else {
+                    System.out.println("Invalid index! Must be between 0 and " + (maxSize - 1) + ".");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter numbers only.");
+            }
+        }
+    }
+
+    public static int getValidUniqueLRN(Scanner sc, HashSet<Integer> uniqueLRNs, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = sc.nextLine().trim();
+            try {
+                int lrn = Integer.parseInt(input);
+                if (lrn <= 0) {
+                    System.out.println("LRN must be a positive number.");
+                } else if (uniqueLRNs.contains(lrn)) {
+                    System.out.println("LRN " + lrn + " is already taken! Please enter a unique LRN.");
+                } else {
+                    return lrn;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter numbers only.");
+            }
+        }
+    }
+
+    public static int getValidIntOrNegative(Scanner sc) {
+        while (true) {
+            String input = sc.nextLine().trim();
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input! Please enter a number only: ");
+            }
+        }
+    }
+
+    public static boolean isValidName(String name) {
+        if (name == null || name.isEmpty()) return false;
+        return name.matches("^[a-zA-Z\\s]+$");
+    }
+
+    public static void printList(ArrayList<String> list) {
+        System.out.print("Current Students: ");
+        if (list.isEmpty()) {
+            System.out.println("(empty)");
+            return;
+        }
+        for (String s : list) {
+            System.out.print(s + " | ");
+        }
+        System.out.println();
+    }
+}

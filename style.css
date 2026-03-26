@@ -1,0 +1,299 @@
+:root{
+  --bg0:#02010a;
+  --bg1:#05061a;
+  --ink:#eaf3ff;
+  --muted:rgba(234,243,255,.72);
+  --orange:#d36a23;
+  --orange2:#ff9a4d;
+  --pill-text:#59ffb1;
+}
+
+*{ box-sizing:border-box; }
+html, body{ height:100%; }
+
+body{
+  min-height:100vh;
+  margin:0;
+  display:flex;
+  flex-direction:column;
+  color:var(--ink);
+  text-align:center;
+  position:relative;
+  overflow-x:hidden;
+
+  background: linear-gradient(180deg, var(--bg1), var(--bg0));
+}
+
+/* Background stars layer (static at first; twinkle starts only after .anim-on is added). */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:url("./Stars.png");
+  background-repeat:repeat;
+  /* Use a visible scale even if the image is small */
+  background-size: 360px 360px;
+  opacity:.95;
+  pointer-events:none;
+  z-index:0;
+}
+
+body.anim-on::before{
+  animation: twinkle 4.5s infinite ease-in-out;
+}
+
+@keyframes twinkle{
+  0%   { opacity: .82; filter: brightness(1.0); }
+  40%  { opacity: 1; filter: brightness(1.18); }
+  70%  { opacity: .86; filter: brightness(1.05); }
+  100% { opacity: .95; filter: brightness(1.12); }
+}
+
+.page-header,
+.frame,
+.page-footer{
+  position:relative;
+  z-index:3;
+}
+
+.page-header{
+  width:100%;
+  padding:34px 18px 60px;
+  overflow:hidden;
+
+  /* orange wash across entire header up to the divider */
+  background:
+    radial-gradient(900px 260px at 50% 100%, rgba(211,106,35,.38) 0%, rgba(211,106,35,0) 65%),
+    linear-gradient(180deg, rgba(211,106,35,.22) 0%, rgba(211,106,35,.08) 100%);
+}
+
+.page-header::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:2px;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(255,155,65,.95) 0 8px,
+    rgba(255,155,65,0) 8px 16px
+  );
+  opacity:.95;
+}
+
+.kicker{
+  font-family: "Times New Roman", Times, serif;
+  letter-spacing: 3px;
+  font-weight: 700;
+  font-size: 34px;
+  text-transform: uppercase;
+  color: rgba(248,250,255,.94);
+  text-shadow:
+    0 0 10px rgba(100,190,255,.18),
+    0 0 18px rgba(255,170,90,.10);
+  transform: translateY(6px);
+}
+
+.subkicker{
+  margin-top:6px;
+  font-size: 13px;
+  letter-spacing: 2.6px;
+  text-transform: uppercase;
+  color: rgba(255, 210, 90, .92);
+  text-shadow: 0 0 12px rgba(255, 190, 60, .25);
+  transform: translateY(6px);
+}
+
+.frame{
+  width:min(900px, calc(100% - 28px));
+  margin:18px auto 0;
+  border:2px solid var(--orange);
+  box-shadow:
+    0 0 0 2px rgba(211,106,35,.18) inset,
+    0 18px 55px rgba(0,0,0,.35);
+  /* more opaque so meteors don't bleed through the "main frame" */
+  background: rgba(12, 16, 35, .88);
+  backdrop-filter: blur(10px);
+  padding: 46px 64px 42px;
+}
+
+.commander-name{
+  font-family: "Times New Roman", Times, serif;
+  font-weight:700;
+  font-size: 28px;
+  margin:0 0 18px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+}
+
+.avatar{
+  width:132px;
+  height:132px;
+  margin:0 auto;
+  border-radius:50%;
+  overflow:hidden;
+  border:2px solid rgba(255,255,255,.12);
+  box-shadow:
+    0 0 0 5px rgba(180,120,255,.14),
+    0 0 26px rgba(140,80,255,.25);
+  background:
+    radial-gradient(circle at 40% 30%, rgba(186,122,255,.55), transparent 55%),
+    radial-gradient(circle at 70% 70%, rgba(90,170,255,.25), transparent 60%),
+    linear-gradient(180deg, rgba(55,35,90,.9), rgba(18,10,30,.9));
+}
+
+.avatar-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position: 50% 45%;
+  transform: scale(1.18);
+  filter: contrast(1.05) saturate(1.1);
+}
+
+.status-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin:10px auto 10px;
+}
+
+.status-label{
+  color: rgba(89,255,177,.72);
+  font-weight:800;
+  letter-spacing: .4px;
+  font-size: 13px;
+}
+
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  padding: 6px 12px;
+  border-radius: 2px;
+  background: #1fa65a;
+  border: 1px solid rgba(0,0,0,.15);
+  box-shadow:
+    0 0 0 1px rgba(89,255,177,.22) inset,
+    0 0 16px rgba(89,255,177,.18);
+  color: #06140d;
+  font-weight: 900;
+  letter-spacing: .15px;
+}
+
+.mission{
+  margin: 0 auto 22px;
+  max-width: 680px;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 13px;
+}
+
+.mission-strong{
+  color: rgba(234,243,255,.95);
+  font-weight: 800;
+}
+
+.cta{
+  display:inline-block;
+  background: linear-gradient(180deg, var(--orange2), var(--orange));
+  color: #0b0a10;
+  text-decoration:none;
+  font-weight: 800;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 220, 170, .35);
+  box-shadow: 0 10px 22px rgba(211,106,35,.25);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+
+.cta:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(211,106,35,.35);
+  filter: saturate(1.05);
+}
+
+.cta:focus-visible{
+  outline: 3px solid rgba(90,170,255,.55);
+  outline-offset: 3px;
+}
+
+.page-footer{
+  margin-top:auto;
+  padding: 18px 10px 22px;
+  font-size: 12px;
+  color: rgba(234,243,255,.55);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Meteors layer (only used after JS adds them) */
+.sky-anim{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+
+.meteor{
+  position:absolute;
+  left:0;
+  top:0;
+  opacity:0;
+  animation-name: meteor;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.meteor-core{
+  position:absolute;
+  left:0;
+  top:50%;
+  transform: translateY(-50%) rotate(var(--angle));
+  transform-origin: 0% 50%;
+  overflow: visible;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,.98) 35%,
+    rgba(160,240,255,.92) 55%,
+    rgba(255,255,255,0) 100%);
+  filter: drop-shadow(0 0 10px rgba(140,220,255,.75)) drop-shadow(0 0 18px rgba(120,210,255,.35));
+  border-radius: 999px;
+}
+
+.meteor-core::after{
+  content:"";
+  position:absolute;
+  right:-10px;
+  top:50%;
+  width:16px;
+  height:16px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(190,255,255,1) 0%, rgba(190,255,255,.45) 38%, rgba(190,255,255,0) 70%);
+  filter: blur(.2px);
+}
+
+@keyframes meteor{
+  0%{
+    opacity:0;
+    transform: translate3d(0,0,0);
+  }
+  10%{ opacity:1; }
+  100%{
+    opacity:0;
+    transform: translate3d(var(--dx), var(--dy), 0);
+  }
+}
+
+@media (max-width: 640px){
+  .frame{
+    padding: 36px 22px 28px;
+  }
+  .kicker{ font-size: 22px; }
+  .commander-name{ font-size: 24px; }
+  .avatar{ width:118px; height:118px; }
+}
+

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nebula Voyager - Commander Nova</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="sky-anim" aria-hidden="true"></div>
+
+    <header class="page-header">
+      <div class="kicker">NEBULA VOYAGER</div>
+      <div class="subkicker">EXPLORING THE FINAL FRONTIER</div>
+    </header>
+
+    <main class="frame" role="main">
+      <h1 class="commander-name">Commander Nova</h1>
+
+      <div class="avatar" aria-hidden="true">
+        <img class="avatar-img" src="Astro.jpg" alt="" />
+      </div>
+
+      <div class="status-wrap" aria-label="Status: In Orbit">
+        <span class="status-label">Status:</span>
+        <div class="status-pill">
+          <span class="status-text">In Orbit</span>
+        </div>
+      </div>
+
+      <p class="mission">
+        Specializing in Deep Space Exploration and Atmospheric Analysis. Currently
+        stationed at the <span class="mission-strong">Alpha-9 Research Outpost</span>.
+      </p>
+
+      <a class="cta" href="#" role="button" aria-label="Contact Command">
+        Contact Command
+      </a>
+    </main>
+
+    <footer class="page-footer">ITEC 50 - CSS Laboratory Activity</footer>
+
+    <script>
+      // Start animations after the initial render ("before the animation").
+      window.addEventListener("DOMContentLoaded", () => {
+        const body = document.body;
+        const sky = document.querySelector(".sky-anim");
+        if (!sky) return;
+
+        const rand = (min, max) => Math.random() * (max - min) + min;
+        const removeAfter = (el, ms) => setTimeout(() => el.remove(), ms);
+
+        // Delay so the user sees the static scene first.
+        setTimeout(() => {
+          body.classList.add("anim-on");
+
+          function spawnMeteor() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+
+            const meteor = document.createElement("span");
+            meteor.className = "meteor";
+            const core = document.createElement("span");
+            core.className = "meteor-core";
+            meteor.appendChild(core);
+
+            const startX = rand(0, w * 0.9);
+            const startY = rand(-140, h * 0.28);
+            const len = rand(240, 420);
+            const thickness = rand(7, 14);
+            const dur = rand(650, 950);
+
+            // Down-right travel angle.
+            const angleDeg = rand(20, 35);
+            const dist = rand(260, 520);
+            const angleRad = (angleDeg * Math.PI) / 180;
+            const dx = Math.cos(angleRad) * dist;
+            const dy = Math.sin(angleRad) * dist;
+
+            meteor.style.left = startX + "px";
+            meteor.style.top = startY + "px";
+            meteor.style.setProperty("--dx", dx + "px");
+            meteor.style.setProperty("--dy", dy + "px");
+            meteor.style.setProperty("--angle", angleDeg + "deg");
+            meteor.style.animationDuration = dur + "ms";
+            core.style.width = len + "px";
+            core.style.height = thickness + "px";
+
+            sky.appendChild(meteor);
+            removeAfter(meteor, dur + 60);
+          }
+
+          function loop() {
+            spawnMeteor();
+            setTimeout(loop, rand(500, 1000));
+          }
+
+          // Kick off.
+          loop();
+        }, 300);
+      });
+    </script>
+  </body>
+</html>
+
