@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Main {
+public class lrn {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -21,29 +21,32 @@ public class Main {
                     students.add(name);
                     break;
                 } else {
-                    System.out.println("Invalid name! Use letters and spaces only.");
+                    System.out.println("Invalid name! Use letters and spaces only (no numbers or symbols).");
                 }
             }
         }
 
         printList(students);
 
-        System.out.print("\nHow many students do you want to remove: ");
-        int removeCount = getValidNonNegativeInt(sc);
+        int removeCount = getValidRemoveCount(sc, students.size());
 
-        for (int i = 0; i < removeCount; i++) {
-            int index = getValidIndex(sc, students.size(),
-                "Enter the index of the student you want to remove: ");
+        if (removeCount == 0) {
+            System.out.println("No students were removed.");
+        } else {
+            for (int i = 0; i < removeCount; i++) {
+                int index = getValidIndex(sc, students.size(),
+                        "Enter the index of the student you want to remove: ");
 
-            String removed = students.remove(index);
-            System.out.println("Removed: " + removed);
-            printList(students);
+                String removed = students.remove(index);
+                System.out.println("Removed: " + removed);
+                printList(students);
+            }
         }
 
         System.out.println("\nTotal students enrolled: " + students.size());
         printList(students);
 
-        System.out.println("\n=== Student LRN Registry ===");
+        System.out.println("\n=== Student LRN Registry (Using HashMap) ===");
 
         HashMap<String, Integer> studentLRN = new HashMap<>();
         HashSet<Integer> uniqueLRNs = new HashSet<>();
@@ -55,12 +58,27 @@ public class Main {
             System.out.println("LRN " + lrn + " successfully assigned to " + student);
         }
 
-        System.out.println("\n=== Final Student LRN Registry ===");
+        System.out.println("\n=== Final Student-LRN Registry ===");
         System.out.println("Student Name                LRN");
         System.out.println("--------------------------------");
 
         for (Map.Entry<String, Integer> entry : studentLRN.entrySet()) {
             System.out.printf("%-25s %d%n", entry.getKey(), entry.getValue());
+        }
+
+        while (true) {
+            System.out.print("\nEnter an LRN to check (or -1 to exit): ");
+            int checkLRN = getValidIntOrNegative(sc);
+
+            if (checkLRN == -1) {
+                break;
+            }
+
+            if (uniqueLRNs.contains(checkLRN)) {
+                System.out.println("LRN " + checkLRN + " exists in the registry.");
+            } else {
+                System.out.println("LRN " + checkLRN + " does NOT exist.");
+            }
         }
 
         System.out.println("\nProgram ended. Thank you!");
@@ -81,13 +99,17 @@ public class Main {
         }
     }
 
-    public static int getValidNonNegativeInt(Scanner sc) {
+    public static int getValidRemoveCount(Scanner sc, int currentSize) {
         while (true) {
+            System.out.print("How many students do you want to remove (enter 0 for none): ");
             String input = sc.nextLine().trim();
             try {
                 int num = Integer.parseInt(input);
-                if (num >= 0) return num;
-                System.out.println("Please enter 0 or a positive number.");
+                if (num >= 0 && num <= currentSize) {
+                    return num;
+                } else {
+                    System.out.println("Invalid! You can only remove between 0 and " + currentSize + " students.");
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input! Please enter numbers only.");
             }
