@@ -297,3 +297,11 @@ body.anim-on::before{
   .avatar{ width:118px; height:118px; }
 }
 
+.avatar-link {
+  text-decoration: none; /* removes underline */
+}
+
+.avatar-link:hover {
+  text-decoration: none; /* keeps it off even on hover */
+}
+
