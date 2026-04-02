@@ -1,0 +1,360 @@
+html, body {
+  /* Make the page take the full viewport height so we can push the footer to the bottom
+     when content is short (flex sticky footer pattern) */
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center major blocks horizontally */
+  /* Use Poppins for body text, Montserrat for headings (see header h1 below) */
+  font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
+  background: #0b0f14 url("suibg.png") center/cover no-repeat fixed;
+  color: #e6eef8;
+  margin: 0;
+  padding: 20px 0 0 0; /* normal bottom padding — footer is in document flow */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header: large rounded blue banner centered */
+header {
+  width: 100%;
+  max-width: 1100px;
+  margin: 12px 0 24px 0;
+  background: #5aa0ff;
+  border-radius: 14px;
+  padding: 28px 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+header h1 {
+  margin: 0;
+  font-family: 'Montserrat', 'Poppins', Arial, sans-serif;
+  font-size: 48px;
+  color: #ffffff;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* Generic content card styling to match screenshot (dark translucent panels) */
+section {
+  width: 100%;
+  max-width: 1100px;
+  margin: 18px 0;
+  padding: 28px 32px;
+  text-align: center;
+  background: rgba(10,12,14,0.65);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  color: #e6eef8;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border 0.18s ease;
+  position: relative;
+  overflow: visible;
+}
+
+/* Ensure section content (headings, paragraphs, buttons) stays centered */
+section h2,
+section p,
+section .listen-btn {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* Make sure the listen button keeps its inline-block size and centers */
+.listen-btn { display: inline-block; }
+
+/* Title badge style that sits above the section box */
+section h2 {
+  display: inline-block;
+  margin: 0 0 12px 0;
+  padding: 6px 12px;
+  font-size: 18px;
+  background: rgba(255,255,255,0.04);
+  color: #f7fbff;
+  border-radius: 6px;
+  position: relative;
+  top: -18px;
+  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+section p { max-width: 900px; margin: 0 auto; font-size: 20px; line-height: 1.6; }
+
+/* Hover/highlight effect for sections (About, Achievements) */
+section:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.75);
+  background: rgba(10,12,14,0.82);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+section:hover h2 {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* Generic content card styling to match screenshot (dark translucent panels) */
+footer {
+  /* Full-width footer in document flow: background spans edge-to-edge, footer stays after content
+     when content is long and is pushed to bottom when content is short via margin-top:auto */
+  margin-top: auto;
+  width: 100%; /* span full viewport width */
+  margin-bottom: 0;
+  background: linear-gradient(180deg, #2f556b, #274556); /* deep blue band */
+  text-align: center;
+  padding: 16px 12px; /* vertical padding, horizontal padding kept small */
+  font-size: 26px; /* larger, like the reference */
+  color: #ffffff;
+  border-radius: 0; /* full-bleed band, no rounded corners */
+  box-shadow: 0 -6px 18px rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.songs {
+  display: flex;
+  gap: 18px;
+  margin: 18px auto;
+  align-items: center;
+  justify-content: center; /* center the song pills as a group */
+  max-width: 1100px; /* keep them centered within a controlled width */
+  padding: 12px 18px; /* dark rounded band around the pills */
+  background: rgba(0,0,0,0.33);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 6px 18px rgba(0,0,0,0.5);
+}
+
+.song {
+  flex: 0 0 30%;
+  height: 72px; /* pill height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-decoration: none; /* remove underline when .song is an anchor */
+  font-weight: 800;
+  font-size: 20px;
+  border-radius: 999px; /* pill shape */
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, rgba(0,0,0,0.45), rgba(0,0,0,0.45));
+  cursor: pointer;
+  padding: 12px 18px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.2s ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.03);
+  backdrop-filter: blur(4px) saturate(120%);
+}
+
+/* Ensure anchors with .song don't show underlines and keep color inheritance */
+.song:link,
+.song:visited { text-decoration: none; color: inherit; }
+
+/* Maintain accessible focus outlines for keyboard users */
+.song:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.18);
+  border-color: rgba(59,130,246,0.5);
+}
+
+.song + .song { margin-left: 12px; }
+
+.song::before {
+  /* subtle textured overlay so background images (if present) darken for readable text */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.45));
+  pointer-events: none;
+  transition: background 0.22s ease, opacity 0.22s ease;
+}
+
+.song:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 18px 36px rgba(0,0,0,0.75);
+  filter: brightness(1.04);
+}
+
+/* When hovering the songs band, slightly brighten the band so it's clear the group is active */
+.songs:hover {
+  background: rgba(0,0,0,0.42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 10px 26px rgba(0,0,0,0.6);
+}
+
+/* Make the overlay on hovered song a bit lighter so the artwork shows through more */
+.song:hover::before {
+  background: linear-gradient(180deg, rgba(0,0,0,0.14), rgba(0,0,0,0.32));
+}
+
+/* Allow authors to place background images on .song via style or class; ensure cover */
+.song { background-size: cover; background-position: center; }
+
+@media (max-width: 760px) {
+  .songs { flex-direction: column; gap: 12px; align-items: center; }
+  .song { flex: none; width: 92%; height: 68px; }
+}
+
+/* Background images for songs (user-provided filenames). If any filename differs, update the URL. */
+.song.song--ghost { background-image: url("suichan.jpg"); }
+.song.song--stellar { background-image: url("Suiseistarry.jpg"); }
+.song.song--bibbidiba { background-image: url("Suisei stellar.jpg"); }
+
+/* Slight darken overlay already applied via .song::before to keep text readable */
+
+/* Specific sizing and styling to match reference: center pill larger with blue gradient */
+.songs .song:first-child { flex: 0 0 28%; min-width: 160px; }
+.songs .song:nth-child(2) {
+  flex: 0 0 44%;
+  min-width: 300px;
+  height: 76px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: #eef6ff;
+  /* layer the blue gradient on top of the image so the artwork is visible but tinted */
+  background-image: linear-gradient(90deg, rgba(10,38,70,0.85), rgba(18,60,110,0.85)), url("Suiseistarry.jpg");
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+  box-shadow: 0 10px 30px rgba(8,40,80,0.55), inset 0 1px 0 rgba(255,255,255,0.03);
+}
+.songs .song:nth-child(3) { flex: 0 0 28%; min-width: 140px; }
+
+/* Slight inner glow for center text */
+.songs .song:nth-child(2) { text-shadow: 0 1px 0 rgba(0,0,0,0.25); }
+
+.gallery {
+  display: flex;
+  gap: 22px;
+  margin: 18px auto; /* center the gallery block horizontally */
+  align-items: center; /* align centers for a neat row */
+  justify-content: center; /* center the flex children */
+  max-width: 1100px; /* match section width so gallery fills the content area */
+  padding: 16px 20px; /* dark rounded band around the gallery images */
+  background: rgba(0,0,0,0.30);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 8px 22px rgba(0,0,0,0.55);
+  transition: background 0.2s ease, box-shadow 0.22s ease;
+}
+
+/* Give each gallery image a tailored flex-basis so they match the screenshot layout
+   left: large hero (about 48%), center: featured card (about 36%), right: narrow poster (about 14%) */
+.gallery img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+  object-fit: cover;
+  transition: transform 0.3s ease, filter 0.22s ease, box-shadow 0.22s ease;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-item:first-child { flex: 0 0 48%; height: 320px; }
+.gallery-item:nth-child(2) { flex: 0 0 48%; height: 340px; }
+.gallery-item:nth-child(3) { flex: 0 0 20%; height: 300px; }
+
+/* Caption overlay that appears on hover (centered text with gradient) */
+.gallery-item .caption {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 34px;
+  font-weight: 700;
+  text-align: center;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.45));
+  opacity: 0;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+/* On hover show the caption and gently scale the image */
+.gallery-item:hover .caption { opacity: 1; }
+.gallery-item:hover img { transform: scale(1.04); filter: brightness(0.95); }
+
+/* Slightly larger rounded corners for the centered featured card to match reference */
+.gallery-item:nth-child(2) img { border-radius: 16px; }
+
+/* Hover effects for gallery band and images */
+.gallery:hover {
+  background: rgba(0,0,0,0.40);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 12px 34px rgba(0,0,0,0.65);
+}
+
+/* individual image hover handled by .gallery-item:hover img (scale + brightness) */
+
+/* Make layout responsive: on smaller screens stack images vertically */
+@media (max-width: 760px) {
+  .gallery { flex-direction: column; gap: 14px; align-items: center; }
+  .gallery-item { flex: none; width: 92%; height: auto; }
+  .gallery img { width: 100%; height: auto; }
+}
+
+.listen-btn {
+  display: inline-block;
+  background: #3b82f6;
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 800;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.5);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.listen-btn:hover {
+  transform: translateY(-3px);
+  background: #1d4ed8;
+}
+
+footer {
+  /* Footer in document flow: pushed to page end when content is short via margin-top:auto */
+  margin-top: auto;
+  max-width: 2200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, #2f556b, #274556); /* deep blue band */
+  text-align: center;
+  padding: 28px 36px;
+  font-size: 26px; /* larger, like the reference */
+  color: #ffffff;
+  border-radius: 14px; /* soft rounded corners */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+header {
+  /* Footer in document flow: pushed to page end when content is short via margin-top:auto */
+  margin-top: auto;
+  max-width: 2200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, #479fd3, #549dc7); /* deep blue band */
+  text-align: center;
+  padding: 28px 36px;
+  font-size: 26px; /* larger, like the reference */
+  color: #ffffff;
+  border-radius: 14px; /* soft rounded corners */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
